@@ -2,7 +2,7 @@
 
 # *******************************************************************************
 # Licensed Materials - Property of HCL
-# (c) Copyright HCL Technologies Ltd. 2021. All Rights Reserved.
+# (c) Copyright HCL Technologies Ltd. 2023. All Rights Reserved.
 # 
 # Note to U.S. Government Users Restricted Rights:
 # Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -18,21 +18,22 @@ usage() {
     echo "Commands:"
     echo "  load                  Loads AIDA's container images"
     echo "  set-custom-port       Sets a custom port to access AIDA (default is 9432)"
-    echo "  set-shards            Sets the number of shards for Elasticsearch (default is 1)"
     echo "  build-start           Builds, creates and starts AIDA's containers (reccommended for the first start)"
     echo "  build                 Builds and creates AIDA's containers (without starting them)"
     echo "  start                 Starts AIDA's containers (without building and creating them, before the first start run build or directly use build-start)"
+    echo "  up                    Recreates only containers if the configuration changed after last start (reccommended for debug)"
     echo "  stop                  Stops AIDA's containers"
     echo "  restart               Restarts AIDA's containers"
     echo "  down                  Removes AIDA's containers (but not volumes)"
     echo "  down-volumes          Removes AIDA's containers and volumes"
     echo "  first-start           Helps setting up AIDA configuration for the first start"
-    echo "  add-credentials       Lets you add credentials to connect to an OpenMetrics server"
+    echo "  add-credentials       Lets you add credentials to connect to a Workload Automation server"
     echo "  update-credentials    Lets you update previously added credentials"
     echo "  delete-credentials    Lets you delete previously added credentials"
     echo ""
     echo "Options:"
     echo "  --noexporter          Excludes the exporter service when executing the command"
+    echo "  --debug               Enables debug mode"
 }
 
 # Use "docker compose" if "docker-compose" doesn't exist.
@@ -43,41 +44,45 @@ if ! type docker-compose >& /dev/null; then
 fi
 
 load() {
-    docker load -i ../aida-images.tgz
+    for f in ../aida-*.t*; do cat $f | docker load; done
 }
 
 start() {
-    docker-compose -f $1 start
+    docker-compose -f $yml start
 }
 
 stop() {
-    docker-compose -f $1 stop
+    docker-compose -f $yml stop
 }
 
 restart() {
-    docker-compose -f $1 restart
+    docker-compose -f $yml restart
 }
 
 down() {
-    docker-compose -f $1 down
+    docker-compose -f $yml down
 }
 
 down_volumes() {
-    docker-compose -f $1 down --volumes $2
+    docker-compose -f $yml down --volumes
 }
 
 build() {
-	docker-compose -f $1 build --build-arg REGISTRY="hclcr.io/wa" --build-arg VERSION=10.1.0.00
-    docker-compose -f $1 up --no-start
+	docker-compose -f $yml build --build-arg REGISTRY="hclcr.io/wa/workload-automation" --build-arg VERSION=10.1.0.3
+    docker-compose -f $yml up --no-start
 }
 
 build_start() {
-	docker-compose -f $1 build --build-arg REGISTRY="hclcr.io/wa" --build-arg VERSION=10.1.0.00 $2
-    docker-compose -f $1 up -d $2
+	docker-compose -f $yml build --build-arg REGISTRY="hclcr.io/wa/workload-automation" --build-arg VERSION=10.1.0.3 $1
+    docker-compose -f $yml up -d $1
+}
+
+up() {
+    docker-compose -f $yml up -d
 }
 
 first_start() {
-    read -p "Do you want to add the credentials to connect to an OpenMetrics server? [Y/n]: " -n 1 -r
+    read -p "Do you want to add the credentials to connect to an Workload Automation server? [Y/n]: " -n 1 -r
     echo ""
 
     case "$REPLY" in
@@ -104,26 +109,12 @@ first_start() {
         echo ""
         ;;
     esac
-
-    read -p "Do you want to change the default number of shards (1) of Elasticsearch? [Y/n]: " -n 1 -r
-    echo ""
-
-    case "$REPLY" in
-        y|Y|"")
-        set_shards $common
-        ;;
-
-        *)
-        echo "Leaving the default shard count (1) unchanged."
-        echo ""
-        ;;
-    esac
 }
 
 start_config() {
-    if ! docker image inspect "hclcr.io/wa/aida-config:10.1.0.00" >&/dev/null; then
+    if ! docker image inspect "hclcr.io/wa/workload-automation/hcl-aida-config:10.1.0.3" >&/dev/null; then
         echo "Loading configuration container image..."
-        docker load -i ../aida-images.tgz
+        for f in ../aida-*.t*; do cat $f | docker load; done
     fi
 
     echo "Starting configuration container..."
@@ -139,14 +130,14 @@ start_config() {
     echo ""
 }
 
-start_elasticsearch() {
-    echo "Starting Elasticsearch to store credentials..."
+start_opensearch() {
+    echo "Starting database to store credentials..."
 
-    build_start $yml "es"
+    build_start "es"
 
     if [ $? -ne 0 ]; then
         echo ""
-        echo "ERROR: Failed to start Elasticsearch"
+        echo "ERROR: Failed to start Opensearch"
         exit
     fi
 
@@ -154,19 +145,19 @@ start_elasticsearch() {
 }
 
 add_credentials() {
-    start_elasticsearch
+    start_opensearch
     
     docker-compose --profile config exec config /config.sh add_credentials
 }
 
 update_credentials() {
-    start_elasticsearch
+    start_opensearch
 
     docker-compose --profile config exec config /config.sh update_credentials
 }
 
 delete_credentials() {
-    start_elasticsearch
+    start_opensearch
 
     docker-compose --profile config exec config /config.sh delete_credentials    
 }
@@ -194,7 +185,8 @@ set_custom_port() {
     done
 
     # Changes the port in the docker-compose yaml file.
-    if sed -Ezi "s/ports:(\s+)- \"[0-9]+:([0-9]+)\"/ports:\1- \"$port:\2\"/" $1; then
+    if sed -Ezi "s/ports:(\s+)- \"[0-9]+:[0-9]+\"/ports:\1- \"$port:$port\"/" $1 &&
+       sed -Ezi "s/listen(\s+)[0-9]+/listen\1$port/" "./nginx/default.conf"; then
         echo "Port successfully changed!"
     else
         echo "ERROR: Could not change the port"
@@ -236,7 +228,7 @@ cleanup() {
 }
 
 # Parse options
-if ! options=$(getopt -n "$0" --options "h" --long "help,noexporter" -- "$@"); then
+if ! options=$(getopt -n "$0" --options "h" --long "help,noexporter,debug" -- "$@"); then
     usage
     exit
 fi
@@ -246,12 +238,17 @@ eval set -- "$options"
 # Use options
 noexporter=false
 yml="docker-compose.yml"
+debug_yml="docker-compose.debug.yml"
 common="common.env"
 while true; do
     case "$1" in
     --noexporter)
         noexporter=true
         yml="docker-compose-noexporter.yml"
+        shift
+        ;;
+    --debug)
+        yml="$yml -f $debug_yml"
         shift
         ;;
     -h|--help)
@@ -291,36 +288,36 @@ case "$1" in
         set_custom_port $yml
         ;;
 
-    set-shards)
-        set_shards $common
-        ;;
-
     start)
-        start $yml
+        start
         ;;
 
     stop)
-        stop $yml
+        stop
         ;;
 
     restart)
-        restart $yml
+        restart
         ;;
 
     down)
-        down $yml
+        down
         ;;
 
     down-volumes)
-        down_volumes $yml
+        down_volumes
         ;;
 
     build)
-        build $yml
+        build
         ;;
 
     build-start)
-        build_start $yml
+        build_start
+        ;;
+
+    up)
+        up
         ;;
 
     first-start)
