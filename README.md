@@ -43,7 +43,7 @@ For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.
 
  -  External container image for OpenSearch 2.3.0 (an Elasticsearch based technology).
 
- -  External container image for Keycloak V22.0.0. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
+ -  External container image for Keycloak V24.0.0. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
     Note: HCL Workload Automation for Z users can only access AIDA UI from the alert widget in the Workload Dashboard of the Dynamic Workload Console.
  
  -  Before starting AIDA installation, verify that `vm.max_map_count` parameter for Elasticsearch is at minimum 262144 on the host machine (not inside the container). 
@@ -79,15 +79,15 @@ Linux intel based 64-bit, and Linux on Z.
     ```
 The images are as follows:
  
- - ``hclcr.io/wa/aida-ad:10.2.1`` 
- - ``hclcr.io/wa/aida-exporter:10.2.1``
- - ``hclcr.io/wa/aida-email:10.2.1``
- - ``hclcr.io/wa/aida-nginx:10.2.1``
- - ``hclcr.io/wa/aida-orchestrator:10.2.1``
- - ``hclcr.io/wa/aida-predictor:10.2.1``
- - ``hclcr.io/wa/aida-redis:10.2.1``
- - ``hclcr.io/wa/aida-config:10.2.1``
- - ``hclcr.io/wa/aida-ui:10.2.1``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.3`` 
+ - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.3``
  
 
  
@@ -173,7 +173,7 @@ To install AIDA, run the following procedure:
 
 ## Updating AIDA installation
 
-If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.1.0,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V22.0.0.
+If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.1.0,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
 Run the following procedure.  
 
  1. Download data from Keycloak V17.0.0 to a file named `aida-realm.json` by running the following commands: 
@@ -183,11 +183,11 @@ Run the following procedure.
  2. Save the file ``aida-realm.json`` to a disk drive.
  3. Remove the data volume from Keycloak V17.0.0 by running the following commands:
     ``./AIDA.sh down; docker run --rm -it --entrypoint /bin/sh -v docker-deployment_aida-keycloak-data:/keycloak docker-deployment_keycloak -c 'mkdir keycloak/old_backup_data; mv keycloak/* keycloak/old_backup_data'``
- 4. Download AIDA V10.2.1.0 images from the source repository.
+ 4. Download AIDA V10.2.3.0 images from the source repository.
  5. Copy the file ``aida-realm.json`` to the ``keycloak/`` folder in the [docker_deployment_dir]. 
  6. From [docker_deployment_dir],run the following command:
     ``sed -i 's+"loginTheme" : "custom"+"loginTheme" : "keycloakTemplate_HCL"+g' ./keycloak/aida-realm.json``
- 7. Complete AIDA V10.2.1.0 installation by running the following commands: 
+ 7. Complete AIDA V10.2.3.0 installation by running the following commands: 
     ``./AIDA.sh load``
     ``./AIDA.sh build-start``
     
