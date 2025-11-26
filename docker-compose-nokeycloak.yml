@@ -9,7 +9,7 @@ version: "3.0"
 
 services:
     config:
-        image: hclcr.io/wa/workload-automation/hcl-aida-config:10.2.3
+        image: hclcr.io/wa/workload-automation/hcl-aida-config:10.2.4
         logging:
             options:
                 max-size: "100m"
