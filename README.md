@@ -79,15 +79,15 @@ Linux intel based 64-bit, and Linux on Z.
     ```
 The images are as follows:
  
- - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.3`` 
- - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.5`` 
+ - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.5``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.5``
  
 
  
@@ -174,7 +174,7 @@ To install AIDA, run the following procedure:
 ## Updating AIDA installation
 
 
-If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.3,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
+If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.5,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
 
 Run the following procedure.  
 
@@ -185,11 +185,11 @@ Run the following procedure.
  2. Save the file ``aida-realm.json`` to a disk drive.
  3. Remove the data volume from Keycloak V17.0.0 by running the following commands:
     ``./AIDA.sh down; docker run --rm -it --entrypoint /bin/sh -v docker-deployment_aida-keycloak-data:/keycloak docker-deployment_keycloak -c 'mkdir keycloak/old_backup_data; mv keycloak/* keycloak/old_backup_data'``
- 4. Download AIDA V10.2.3 images from the source repository.
+ 4. Download AIDA V10.2.5 images from the source repository.
  5. Copy the file ``aida-realm.json`` to the ``keycloak/`` folder in the [docker_deployment_dir]. 
  6. From [docker_deployment_dir],run the following command:
     ``sed -i 's+"loginTheme" : "custom"+"loginTheme" : "keycloakTemplate_HCL"+g' ./keycloak/aida-realm.json``
- 7. Complete AIDA V10.2.3 installation by running the following commands: 
+ 7. Complete AIDA V10.2.5 installation by running the following commands: 
     ``./AIDA.sh load``
     ``./AIDA.sh build-start``
     
