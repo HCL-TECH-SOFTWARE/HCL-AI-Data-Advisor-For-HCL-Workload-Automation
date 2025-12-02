@@ -19,16 +19,16 @@
 ## Introduction
 **AI Data Advisor (AIDA)** is a component of HCL Workload Automation since V10.1, based on Artificial Intelligence and Machine Learning techniques. It enables fast and simplified data-driven decision making for an intelligent workload management. By analyzing workload historical data and metrics gathered by HCL Workload Automation and predicting their future patterns, AIDA identifies anomalies in KPIs trend (such as the jobs in plan by status and the jobs in plan by workstation) and sends immediate alerts to prevent problems and delays. Alerts show up on the Workload Dashboard and can be notified via email.
 
-For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v1023/common/src_ai/awsaimst_welcome.html).
+For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v1025/common/src_ai/awsaimst_welcome.html).
 
    
 
 ## Prerequisites
 
  -  HCL Workload Automation V10.1 or higher exposed metrics.
-     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1023/distr/src_ref/awsrgmonprom.html).  
+     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1025/distr/src_ref/awsrgmonprom.html).  
 
-     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1023/zos/src_man/eqqr1metricsmonitoring.html). 
+     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1025/zos/src_man/eqqr1metricsmonitoring.html). 
 
  -  Docker Compose 1.28 or higher.
 
