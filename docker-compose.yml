@@ -8,11 +8,7 @@
 
 services:
     config:
-<<<<<<< HEAD
         image: wa-registry.prod.hclpnp.com/wa-aida/aida-hcl/aida-config:10.2.6
-=======
-        image: hclcr.io/wa/workload-automation/hcl-aida-config:10.2.4
->>>>>>> main
         logging:
             options:
                 max-size: "100m"
