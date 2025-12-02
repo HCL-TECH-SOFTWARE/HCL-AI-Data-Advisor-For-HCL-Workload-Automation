@@ -1,6 +1,7 @@
-
+﻿
 
 # AI Data Advisor (AIDA) 
+
 
 ## Content
   -  [Introduction](#introduction)  
@@ -10,6 +11,7 @@
   -  [Accessing the container images](#accessing-the-container-images)
   -  [AIDA structure](#aida-structure)
   -  [AIDA Installation](#aida-installation) 
+  -  [Managing Workload Automation server credentials](#managing-workload-automation-server-credentials)
   -  [Updating AIDA installation](#updating-aida-installation)
   -  [Uninstalling AIDA](#uninstalling-aida)
   -  [AIDA.sh script](#aida.sh-script)
@@ -19,16 +21,16 @@
 ## Introduction
 **AI Data Advisor (AIDA)** is a component of HCL Workload Automation since V10.1, based on Artificial Intelligence and Machine Learning techniques. It enables fast and simplified data-driven decision making for an intelligent workload management. By analyzing workload historical data and metrics gathered by HCL Workload Automation and predicting their future patterns, AIDA identifies anomalies in KPIs trend (such as the jobs in plan by status and the jobs in plan by workstation) and sends immediate alerts to prevent problems and delays. Alerts show up on the Workload Dashboard and can be notified via email.
 
-For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v1025/common/src_ai/awsaimst_welcome.html).
+For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v102/common/src_ai/awsaimst_welcome.html).
 
    
 
 ## Prerequisites
 
  -  HCL Workload Automation V10.1 or higher exposed metrics.
-     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1025/distr/src_ref/awsrgmonprom.html).  
+     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v102/distr/src_ref/awsrgmonprom.html).  
 
-     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1025/zos/src_man/eqqr1metricsmonitoring.html). 
+     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v102/zos/src_man/eqqr1metricsmonitoring.html). 
 
  -  Docker Compose 1.28 or higher.
 
@@ -43,7 +45,7 @@ For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.
 
  -  External container image for OpenSearch 2.3.0 (an Elasticsearch based technology).
 
- -  External container image for Keycloak V24.0.0. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
+ -  External container image for Keycloak V22.0.0. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
     Note: HCL Workload Automation for Z users can only access AIDA UI from the alert widget in the Workload Dashboard of the Dynamic Workload Console.
  
  -  Before starting AIDA installation, verify that `vm.max_map_count` parameter for Elasticsearch is at minimum 262144 on the host machine (not inside the container). 
@@ -79,15 +81,15 @@ Linux intel based 64-bit, and Linux on Z.
     ```
 The images are as follows:
  
- - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.5`` 
- - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.5``
- - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.5``
+ - ``hclcr.io/wa/aida-ad:10.2.1.0`` 
+ - ``hclcr.io/wa/aida-exporter:10.2.1.0``
+ - ``hclcr.io/wa/aida-email:10.2.1.0``
+ - ``hclcr.io/wa/aida-nginx:10.2.1.0``
+ - ``hclcr.io/wa/aida-orchestrator:10.2.1.0``
+ - ``hclcr.io/wa/aida-predictor:10.2.1.0``
+ - ``hclcr.io/wa/aida-redis:10.2.1.0``
+ - ``hclcr.io/wa/aida-config:10.2.1.0``
+ - ``hclcr.io/wa/aida-ui:10.2.1.0``
  
 
  
@@ -158,8 +160,15 @@ To install AIDA, run the following procedure:
          ``./AIDA.sh build-start``
 
 	 Accept the product license when prompted.
+	    
+ 8.   AIDA is now up and running. Configure the first server to be monitored by running the command 
+ 
+         ``./AIDA.sh add-credentials``    
+	
+     This command starts a guided configuration of the server. 
+	 For details, see [Managing Workload Automation server credentials](#managing-workload-automation-server-credentials).
     
-8. If Keycloak is included in your AIDA deployment, you can connect AIDA user interface at the following link
+9. If Keycloak is included in your AIDA deployment, you can connect AIDA user interface at the following link
  
 	 ``https://aida-ip:aida-port/``
 	
@@ -169,13 +178,45 @@ To install AIDA, run the following procedure:
    **Note**: The **common.env** environment file contains all the environment variables. For details, see  [Configuration parameters](#configuration-parameters). 
     After AIDA installation, if you want to modify the configuration parameters, edit the common.env file and then run the command: ./AIDA.sh restart.     
 
+## Managing Workload Automation server credentials
+You can manage the credentials needed to connect to a Workload Automation server using  AIDA.sh script. 
+With a single AIDA instance you can monitor hybrid environments with a mix of HCL Workload Automation for distributed and z/OS systems.
+
+**Limitations:**
+With AIDA.sh script you can add, update, and delete credentials. You cannot list credentials since this function is not currently available.
+
+To **add new credentials**, run the following steps:
+ 1. From [docker_deployment_dir], run the following command  
+ 
+	 ``./AIDA.sh add-credentials``. 
+	
+	 A guided configuration procedure will start. 
+ 2. Follow the guided procedure and answer the prompts to add your credentials, specify the engine type (if HCL Workload Automation for distributed systems or HCL Workload Automation for Z) and, for HCL Workload Automation for Z only, also the engine name.
+
+**Note:** If you are connecting HCL Workload Automation for distributed systems, you must use the Engine credentials.
+If you are connecting HCL Workload Automation for Z, you must use the Dynamic Workload Console credentials instead.
+
+To **update existing credentials**, run the following steps:
+ 1. From [docker_deployment_dir], run the following command   
+ 
+	 ``./AIDA.sh update-credentials``. 
+	
+	 A guided configuration procedure will start.
+ 2. Follow the guided procedure and answer the prompts to add your credentials, specify the engine type (if HCL Workload Automation for distributed systems or HCL Workload Automation for Z) and, for HCL Workload Automation for Z only, also the engine name.
+
+
+To **delete existing credentials**, run the following steps:
+1.	From [docker_deployment_dir], run the following command
+
+	 ``./AIDA.sh delete-credentials``. 
+	
+	 A guided configuration procedure will start.
+2.	 Follow the guided procedure and answer the prompts to delete your credentials.
 
 
 ## Updating AIDA installation
 
-
-If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.5,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
-
+If you are using AIDA V10.1 or V10.2.1 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.1.0,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V22.0.0.
 Run the following procedure.  
 
  1. Download data from Keycloak V17.0.0 to a file named `aida-realm.json` by running the following commands: 
@@ -185,11 +226,11 @@ Run the following procedure.
  2. Save the file ``aida-realm.json`` to a disk drive.
  3. Remove the data volume from Keycloak V17.0.0 by running the following commands:
     ``./AIDA.sh down; docker run --rm -it --entrypoint /bin/sh -v docker-deployment_aida-keycloak-data:/keycloak docker-deployment_keycloak -c 'mkdir keycloak/old_backup_data; mv keycloak/* keycloak/old_backup_data'``
- 4. Download AIDA V10.2.5 images from the source repository.
+ 4. Download AIDA V10.2.1.0 images from the source repository.
  5. Copy the file ``aida-realm.json`` to the ``keycloak/`` folder in the [docker_deployment_dir]. 
  6. From [docker_deployment_dir],run the following command:
     ``sed -i 's+"loginTheme" : "custom"+"loginTheme" : "keycloakTemplate_HCL"+g' ./keycloak/aida-realm.json``
- 7. Complete AIDA V10.2.5 installation by running the following commands: 
+ 7. Complete AIDA V10.2.1.0 installation by running the following commands: 
     ``./AIDA.sh load``
     ``./AIDA.sh build-start``
     
@@ -234,6 +275,12 @@ For the command usage, run
 ``down`` Removes  AIDA's containers (but  not  volumes)
 
 ``down-volumes``  Removes  AIDA's containers and volumes
+
+``add-credentials`` Lets  you  add  credentials to connect to a HCL Workload Automation engine
+
+``update-credentials`` Lets  you update previously  added  credentials
+
+``delete-credentials`` Lets  you  delete previously added credentials 
 
 ``set-custom-port`` Sets a custom port to access AIDA (default value is 9432)
 
@@ -284,13 +331,12 @@ The following tables list the configurable parameters of each service in the com
  	
 | **Parameter** | **Description** | **Mandatory** | **Customizable** | **Default** |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------- | -------------------------------- |
-|SMTP_SERVER|The smtp server. Example:  smtp-mail.outlook.com    | Y (if you want to receive anomaly notification by email) | | smtp.server.com  |
-|SMTP_PORT|The port of the smtp server  | Y (if you want to receive anomaly notification by email)|  |  587  |
-|SENDER_MAILID| The email account of the alert sender   | Y (if you want to receive anomaly notification by email) |  | smtp@server.com  |
-|SENDER_MAILPWD|The email password of the alert sender   | Y (if you want to receive anomaly notification by email)|  | smtpPassword  |
-|RECIPIENT_MAILIDS|The list of recipient emails. Example: `jack@gmail.com,jessie@live.com`   | Y (if you want to receive anomaly notification by email) | | test1@email.com,test2@email.com  |
+|SMTP_SERVER|The smtp server. Example:  smtp-mail.outlook.com    | Y (if you want to receive anomaly notification by email) | |   |
+|SMTP_PORT|The port of the smtp server  | Y (if you want to receive anomaly notification by email)|  |    |
+|SENDER_MAILID| The email account of the alert sender   | Y (if you want to receive anomaly notification by email) |  |   |
+|SENDER_MAILPWD|The email password of the alert sender   | Y (if you want to receive anomaly notification by email)|  |   |
+|RECIPIENT_MAILIDS|The list of recipient emails. Example: `jack@gmail.com,jessie@live.com`   | Y (if you want to receive anomaly notification by email) | |  |
 |HOST_IP|AIDA Host IP address and Port. Example: 10.14.32.141:9432| Y (if you want to receive anomaly notification by email) | |  |
-|EXTERNAL_HOSTNAME=|AIDA Hostname to resolve vulnerabilities|  | |  |
 
 
 
@@ -342,7 +388,6 @@ The following tables list the configurable parameters of each service in the com
 | **Parameter** | **Description** | **Mandatory** | **Customizable** | **Default** |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------- | -------------------------------- |
 |PREDICT_EVERYTHING|For debugging purposes| N | N |false|
-|TOGGLE_HISTORICAL_DATA|For debugging purposes| N | N |true|
 
 
 
