@@ -3,7 +3,7 @@ LICENÈNÍ INFORMACE
 Ní¾e uvedené Programy jsou licencovány na základì následujících podmínek uvedených v dokumentu Licenèní informace, které doplòují licenèní podmínky pro Program, s nimi¾ døíve Zákazník a IBM vyjádøili souhlas Pokud Zákazník døíve nevyjádøil souhlas s úèinnými licenèními podmínkami pro Program, uplatní se licence Mezinárodní licenèní smlouva pro program (i125-3301-15).
 
 Název Programu (Èíslo Programu):
-IBM Workload Scheduler AIDA 10.2.3 (Tool)
+IBM Workload Scheduler AIDA 10.2.6 (Tool)
 
 Na pou¾ívání Programu Dr¾itelem licence se vztahují následující standardní podmínky.
 
@@ -22,7 +22,7 @@ Dr¾itel licence mù¾e nasadit Program (je-li podporován) pomocí plnì kapacitního 
 Namísto oprávnìní vy¾adovaných pøímo pro Program je Dr¾itel licence povinen si opatøit oprávnìní pro jednotky PVU k tomuto Programu v takovém poètu, který je dostaèující k pokrytí procesorových jader pro systémy, na nich¾ se nacházejí prostøedky spravované a zpracovávané Programem.
 
 
-L/N: L-JUWE-FTMQAH
-D/N: L-JUWE-FTMQAH
-P/N: L-JUWE-FTMQAH
+L/N: L-PNAH-TL6GFM
+D/N: L-PNAH-TL6GFM
+P/N: L-PNAH-TL6GFM
 

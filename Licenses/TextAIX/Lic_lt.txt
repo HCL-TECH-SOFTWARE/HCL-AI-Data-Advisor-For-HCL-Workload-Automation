@@ -3,7 +3,7 @@ LICENCIJOS INFORMACIJA
 Toliau nurodytos Programos licencijuojamos pagal ðias Licencijos informacijos sàlygas, kurios papildo Programos licencijos sàlygas, dël kuriø susitarë Klientas ir IBM. Jei Klientas anksèiau nëra sutikæs su Programai taikomomis licencijos sàlygomis, taikoma Tarptautinë programos licencinë sutartis (i125-3301-15).
 
 Programos pavadinimas (Programos numeris):
-IBM Workload Scheduler AIDA 10.2.3 (Tool)
+IBM Workload Scheduler AIDA 10.2.6 (Tool)
 
 Ðios standartinës sàlygos taikomos Licenciato Programos naudojimui.
 
@@ -22,9 +22,9 @@ Licenciatas gali diegti Programà (jei palaikoma) naudodamas visos talpos licenci
 Vietoj tiesiogiai Programai reikalingø teisiø Licenciatas privalo ásigyti ðios Programos PVV teises, kuriø pakaktø sistemos, kurioje yra Programos valdomi arba apdorojami iðtekliai, procesoriaus ðerdims.
 
 
-L/N: L-JUWE-FTMQAH
-D/N: L-JUWE-FTMQAH
-P/N: L-JUWE-FTMQAH
+L/N: L-PNAH-TL6GFM
+D/N: L-PNAH-TL6GFM
+P/N: L-PNAH-TL6GFM
 
 Tarptautinë programinës árangos licencinë sutartis
 

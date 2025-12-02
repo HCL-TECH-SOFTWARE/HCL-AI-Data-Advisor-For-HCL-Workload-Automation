@@ -3,7 +3,7 @@
 Ä¶ÇÄÆÛá£È¢ÄæÚæûâØæÏûËíÐêÅÂêØ IBM Ç¿Ð©ÇÑãôÄæÚæûâÛ¾à¡ÆÀ¡¢ËäËíÄ¶ÓÝÚæûâÅÃÅõÛ¾à¡Úæûâ¡¤Ó¼ÐêÅÂÇ¿Ð©ÞóÆÛá£È¢ÆÜÇÑãôÆíÕæÇ¶ÈôÚæûâÛ¾à¡¡¢Ð¬ÆÛá£È¢ïËÆî ÙÏëãá£È¢ÚæûâÇÙÒü (i125-3301-15)¡¤
 
 á£È¢ÇØê¢ (á£È¢î¾æÀ)¡¨
-IBM Workload Scheduler AIDA 10.2.3 (Tool)
+IBM Workload Scheduler AIDA 10.2.6 (Tool)
 
 Ä¶ÇÄíºäíÛ¾à¡ïËÆîÍõÝ·ÚæûâÄ©è×ÆÛá£È¢ÄæËðÆî¡¤
 
@@ -22,9 +22,9 @@ IBM Workload Scheduler AIDA 10.2.3 (Tool)
 Ý·ÚæûâÄ©óÜÒ³ÆÛá£È¢Ì½ÚµËÍÅèÛàêäÆÛá£È¢Ú·Äãê§Ü¡ÍÐÝ¨Ü¡æñäãÄæË·ÜÓÄæÝ¨Ü¡ðÂÕøÅÀÄæ PVU Úæûâí°âØ¡¢ÈÔÏæÎþÚÙÌ½Úµ¡ÖÆÛá£È¢¡×ÍÔëæÄæÚæûâí°âØ¡¤
 
 
-L/N: L-JUWE-FTMQAH
-D/N: L-JUWE-FTMQAH
-P/N: L-JUWE-FTMQAH
+L/N: L-PNAH-TL6GFM
+D/N: L-PNAH-TL6GFM
+P/N: L-PNAH-TL6GFM
 
 ÙÏëãá£È¢ÚæûâÇÙÒü
 
