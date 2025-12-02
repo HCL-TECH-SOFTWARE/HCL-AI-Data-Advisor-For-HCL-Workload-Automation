@@ -19,16 +19,16 @@
 ## Introduction
 **AI Data Advisor (AIDA)** is a component of HCL Workload Automation since V10.1, based on Artificial Intelligence and Machine Learning techniques. It enables fast and simplified data-driven decision making for an intelligent workload management. By analyzing workload historical data and metrics gathered by HCL Workload Automation and predicting their future patterns, AIDA identifies anomalies in KPIs trend (such as the jobs in plan by status and the jobs in plan by workstation) and sends immediate alerts to prevent problems and delays. Alerts show up on the Workload Dashboard and can be notified via email.
 
-For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v1023/common/src_ai/awsaimst_welcome.html).
+For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.com/workloadautomation/v1024/common/src_ai/awsaimst_welcome.html).
 
    
 
 ## Prerequisites
 
  -  HCL Workload Automation V10.1 or higher exposed metrics.
-     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1023/distr/src_ref/awsrgmonprom.html).  
+     - For information about HCL Workload Automation exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1024/distr/src_ref/awsrgmonprom.html).  
 
-     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1023/zos/src_man/eqqr1metricsmonitoring.html). 
+     - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1024/zos/src_man/eqqr1metricsmonitoring.html). 
 
  -  Docker Compose 1.28 or higher.
 
@@ -79,15 +79,15 @@ Linux intel based 64-bit, and Linux on Z.
     ```
 The images are as follows:
  
- - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.3`` 
- - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.3``
- - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.3``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.4`` 
+ - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.4``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.4``
  
 
  
@@ -174,7 +174,7 @@ To install AIDA, run the following procedure:
 ## Updating AIDA installation
 
 
-If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.3,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
+If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.4,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
 
 Run the following procedure.  
 
@@ -185,11 +185,11 @@ Run the following procedure.
  2. Save the file ``aida-realm.json`` to a disk drive.
  3. Remove the data volume from Keycloak V17.0.0 by running the following commands:
     ``./AIDA.sh down; docker run --rm -it --entrypoint /bin/sh -v docker-deployment_aida-keycloak-data:/keycloak docker-deployment_keycloak -c 'mkdir keycloak/old_backup_data; mv keycloak/* keycloak/old_backup_data'``
- 4. Download AIDA V10.2.3 images from the source repository.
+ 4. Download AIDA V10.2.4 images from the source repository.
  5. Copy the file ``aida-realm.json`` to the ``keycloak/`` folder in the [docker_deployment_dir]. 
  6. From [docker_deployment_dir],run the following command:
     ``sed -i 's+"loginTheme" : "custom"+"loginTheme" : "keycloakTemplate_HCL"+g' ./keycloak/aida-realm.json``
- 7. Complete AIDA V10.2.3 installation by running the following commands: 
+ 7. Complete AIDA V10.2.4 installation by running the following commands: 
     ``./AIDA.sh load``
     ``./AIDA.sh build-start``
     
