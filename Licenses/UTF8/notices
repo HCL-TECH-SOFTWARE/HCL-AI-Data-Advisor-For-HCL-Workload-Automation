@@ -1,6 +1,10 @@
 NOTICES AND INFORMATION
 
+<<<<<<< HEAD
 IBM Workload Scheduler AIDA 10.2.6
+=======
+IBM Workload Scheduler AIDA 10.2.4
+>>>>>>> main
 
 The IBM license agreement and any applicable information on the web
 download page for IBM products refers Licensee to this file for details
@@ -29,7 +33,11 @@ limitation URLs or references to any third party websites.
 Notices & Information
 ---------------------
 ---------------------------------
+<<<<<<< HEAD
 AI Data Advisor (AIDA) - 10.2.6.0
+=======
+AI Data Advisor (AIDA) - 10.2.4.0
+>>>>>>> main
 ---------------------------------
 
 ======
