@@ -30,7 +30,8 @@ For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.
 
      - For information about HCL Workload Automation for Z exposed metrics, see [Exposing metrics to monitor your workload](https://help.hcltechsw.com/workloadautomation/v1026/zos/src_man/eqqr1metricsmonitoring.html). 
 
- -  Docker Compose 1.28 or higher.
+ -  Docker Compose v2.40.2
+ -  Podman version 5.4.0 (rhel 9)
 
  -  Docker from version 20.10+ to version 24.0+.
 
