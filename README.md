@@ -91,7 +91,7 @@ The images are as follows:
  - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.6``
  
 
- 
+ **Note:** Before starting the installation, define the container runtime (Docker or Podman) by setting the CONTAINER_RUNTIME environment variable. The installation script uses this variable to execute the appropriate commands.
   
 #### From HCL Flexera (offline installation)
 
