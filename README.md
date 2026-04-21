@@ -42,12 +42,12 @@ For more information about AIDA, see [AIDA User's Guide](https://help.hcltechsw.
     - Mozilla Firefox 61.0.1 or higher 
     - Microsoft Edge 79 or higher
 
- -  External container image for OpenSearch 2.3.0 (an Elasticsearch based technology).
+ -  External container image for OpenSearch 2.19.5
 
- -  External container image for Keycloak V24.0.0. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
+ -  External container image for Keycloak V22.0.5. (only for HCL Workload Automation users). Optional, if you want to access AIDA UI from outside the Dynamic Workload Console. 
     Note: HCL Workload Automation for Z users can only access AIDA UI from the alert widget in the Workload Dashboard of the Dynamic Workload Console.
  
- -  Before starting AIDA installation, verify that `vm.max_map_count` parameter for Elasticsearch is at minimum 262144 on the host machine (not inside the container). 
+ -  Before starting AIDA installation, verify that `vm.max_map_count` parameter for OpenSearch is at minimum 262144 on the host machine (not inside the container). 
  
     -  To get the current value, run the command: `sysctl vm.max_map_count`  
 	
@@ -80,15 +80,15 @@ Linux intel based 64-bit, and Linux on Z.
     ```
 The images are as follows:
  
- - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.6`` 
- - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.6``
- - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.6``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ad:10.2.7`` 
+ - ``hclcr.io/wa/workload-automation/hcl-aida-exporter:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-email:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-nginx:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-orchestrator:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-predictor:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-redis:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-config:10.2.7``
+ - ``hclcr.io/wa/workload-automation/hcl-aida-ui:10.2.7``
  
 
  **Note:** Before starting the installation, define the container runtime (Docker or Podman) by setting the CONTAINER_RUNTIME environment variable. The installation script uses this variable to execute the appropriate commands.
@@ -134,7 +134,7 @@ Also, AIDA uses:
  - **Keycloak** - To manage security and user access, for HCL Workload Automation only (not for HCL Workload Automation for Z). Keycloak is optional: if used, it enables the creation of AIDA administrators who can access AIDA UI from outside the Dynamic Workload Console. Otherwise,  AIDA can only be accessed from the alert widget in the Workload Dashboard of the Dynamic Workload Console. 
     Note: For HCL Workload Automation for Z, AIDA can only be accessed from the alert widget.
 
- - **OpenSearch (an Elasticsearch based technology)** - To store and analyze data.
+ - **OpenSearch** - To store and analyze data.
 
  
 ## AIDA installation 
@@ -175,7 +175,7 @@ To install AIDA, run the following procedure:
 ## Updating AIDA installation
 
 
-If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.6,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V24.0.0.
+If you are using AIDA V10.1 or V10.2.0.0 with Keycloak V17.0.0 and want to update your AIDA installation to V10.2.7,  you must first migrate your previous Keycloak V17.0.0 data to Keycloak V22.0.5.
 
 Run the following procedure.  
 
@@ -186,11 +186,11 @@ Run the following procedure.
  2. Save the file ``aida-realm.json`` to a disk drive.
  3. Remove the data volume from Keycloak V17.0.0 by running the following commands:
     ``./AIDA.sh down; docker run --rm -it --entrypoint /bin/sh -v docker-deployment_aida-keycloak-data:/keycloak docker-deployment_keycloak -c 'mkdir keycloak/old_backup_data; mv keycloak/* keycloak/old_backup_data'``
- 4. Download AIDA V10.2.6 images from the source repository.
+ 4. Download AIDA V10.2.7 images from the source repository.
  5. Copy the file ``aida-realm.json`` to the ``keycloak/`` folder in the [docker_deployment_dir]. 
  6. From [docker_deployment_dir],run the following command:
     ``sed -i 's+"loginTheme" : "custom"+"loginTheme" : "keycloakTemplate_HCL"+g' ./keycloak/aida-realm.json``
- 7. Complete AIDA V10.2.6 installation by running the following commands: 
+ 7. Complete AIDA V10.2.7 installation by running the following commands: 
     ``./AIDA.sh load``
     ``./AIDA.sh build-start``
     
@@ -262,7 +262,11 @@ AIDA configuration parameters in the common.env file are divided in three catego
 |DEFAULT_REPLICA_COUNT | The default number of OpenSearch replicas |N | N |0  |
 |OPENSSL_PASSWORD | This password will be used to generate an encryption key to hide the Workload Automation server credentials. (According to ISO, passwords must be encrypted inside the database) | Y |  | |
 |WEB_CONCURRENCY | Number of workers of the web server (trading). The more they are, the more there is parallelism (and the more RAM is consumed). Suggested value: [(2 x <number_of_cores>) + 1] | N | Y| 2  |
-
+| ANOMALY_USE_TOLERANCE | Enables tolerance-based evaluation when detecting anomalies. When set to true, prediction bounds are adjusted using the configured tolerance values before determining anomalous datapoints. | N | Y |false |
+| ANOMALY_FIXED_TOLERANCE | Fixed absolute tolerance applied to the upper and lower prediction bounds. When tolerance is enabled, AIDA applies the higher value between ANOMALY_FIXED_TOLERANCE and ANOMALY_PERCENTAGE_TOLERANCE. This parameter is used only when ANOMALY_USE_TOLERANCE is set to true. | N | Y |0.5 |
+| ANOMALY_PERCENTAGE_TOLERANCE | Percentage-based tolerance applied to the prediction range (for example, 0.01 represents 1%). This parameter is used only when ANOMALY_USE_TOLERANCE is set to true. | N | Y | 0.01 |
+| ALERT_ANOMALOUS_POINTS_REQUIRED | Global number of anomalous datapoints required to trigger an alert. If not specified, the value defined in each alert definition (trigger.value) is used. | N | Y |
+| ALERT_ANOMALY_RANGE_MINUTES | Global time window, in minutes, used to evaluate anomalous datapoints for alert generation. If not specified, the value defined in each alert definition (trigger.timeFrame) is used. | N | Y |
 
 - ### AIDA parameters
 The following tables list the configurable parameters of each service in the common.env file and their default values:
@@ -302,7 +306,7 @@ The following tables list the configurable parameters of each service in the com
 |PROPHET_URL|aida-predictor connection url |N  |N |  "http://aida-predictor:5000"|
 |ALERT_URL | aida-ad connection url |N |N | "http://aida-ad:5000" |
 |PROPHET_ORCHESTRATOR | interval in minutes between two subsequent predictions, and between two subsequent alert detections  |N  |Y | {"schedule":1440},{"schedule_alert":15} |
-|DAYS_OF_PREDICTION |How many days to predict in the future|N   |Y  |1 |
+|DAYS_OF_PREDICTION |How many days to predict in the future|N   |Y  |2 |
 
 
 ### [aida-ui parameters](#aida-ui-parameters)
@@ -349,7 +353,7 @@ The following tables list the configurable parameters of each service in the com
 
 ## Troubleshooting
 
- 1. If the Elasticsearch container fails to get up, verify the ``vm.max_map_count`` parameter is at minimum 262144 on the host machine (not inside the container). 
+ 1. If the Opensearch container fails to get up, verify the ``vm.max_map_count`` parameter is at minimum 262144 on the host machine (not inside the container). 
  
 	To get the current value, run the command: ``sysctl  vm.max_map_count``.
 
